@@ -31,10 +31,11 @@ int main(int argc, char** argv)
 
     while(1)
     {
-    	APLOG_ERROR << "x: " << cam_data->x;
-		APLOG_ERROR << "y: " << cam_data->y;
-		APLOG_ERROR << "z: " << cam_data->z;
-		APLOG_ERROR << "ground speed: " << cam_data->groundspeed;
+    	APLOG_ERROR << "x: " << cam_data->getX();
+		APLOG_ERROR << "y: " << cam_data->getY();
+		APLOG_ERROR << "z: " << cam_data->getZ();
+		APLOG_ERROR << "ground speed: " << cam_data->getGroundSpeed();
+		APLOG_ERROR << "timestamp: " << cam_data->getTimeStamp();
 		APLOG_ERROR << "";
     }
 }

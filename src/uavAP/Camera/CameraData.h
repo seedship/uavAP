@@ -20,11 +20,17 @@ public:
     // IRunnableObject interface
     bool run(RunStage stage);
 
-    double x;
-    double y;
-    double z;
-    double groundspeed;
+    double getX();
+    double getY();
+    double getZ();
+    double getGroundSpeed();
+    TimePoint getTimeStamp();
 
 private:
     SensorData data_;
+    double x_;
+    double y_;
+    double z_;
+    double groundspeed_;
+    TimePoint timestamp_;
 };
