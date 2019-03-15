@@ -6,11 +6,10 @@
 HEADERS += $$system(find -name "*.h")
 HEADERS += $$system(find -name "*.hpp")
 
-SOURCES += $$system(find -name "*.c") \
-    src/Camera/CameraMain.cpp
+SOURCES += $$system(find -name "*.c")
 SOURCES += $$system(find -name "*.cpp")
 SOURCES += $$system(find -name "CMakeLists.txt")
 
 OTHER_FILES += $$system(find -type f)
 
-DEFINES =
+DEFINES += __cplusplus=201103L

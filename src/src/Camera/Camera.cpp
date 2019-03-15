@@ -1,29 +1,47 @@
-#include "uavAP/Camera/CameraData.h"
+#include "uavAP/Camera/Camera.h"
 #include "uavAP/Core/Scheduler/MultiThreadingScheduler.h"
 #include "uavAP/Core/Runner/SimpleRunner.h"
 #include "uavAP/Core/TimeProvider/SystemTimeProvider.h"
 #include <memory>
 #include <iostream>
 
-CameraData::CameraData()
+
+int main(int argc, char** argv) {
+    auto cam = std::make_shared<Camera>();
+    auto ipc = std::make_shared<IPC>();
+    auto sched = std::make_shared<MultiThreadingScheduler>();
+    auto timeprovider = std::make_shared<SystemTimeProvider>();
+
+    Aggregator agg;
+    SimpleRunner runner(agg);
+    agg.add(sched);
+    agg.add(cam);
+    agg.add(ipc);
+    agg.add(timeprovider);
+
+    if (runner.runAllStages())
+    {
+        return 1;
+    }
+
+    while(1);
+}
+
+Camera::Camera()
 {
 }
 
-void CameraData::updateSensorData(const SensorData &data)
+void Camera::getSensorData(const SensorData &data)
 {
-    data_ = data;
-    x = data.position[0];
-    y = data.position[1];
-    z = data.position[2];
-    groundspeed = data.groundSpeed;
+    std::cout << data.groundSpeed << " " << data.airSpeed<< "\n";
 }
 
-void CameraData::notifyAggregationOnUpdate(const Aggregator &agg)
+void Camera::notifyAggregationOnUpdate(const Aggregator &agg)
 {
     ipcHandle_.setFromAggregationIfNotSet(agg);
 }
 
-bool CameraData::run(RunStage stage)
+bool Camera::run(RunStage stage)
 {
     switch (stage)
     {
@@ -42,7 +60,7 @@ bool CameraData::run(RunStage stage)
         auto ipc = ipcHandle_.get();
 
         subscription_ = ipcHandle_.get()->subscribeOnSharedMemory<SensorData>("sensor_data",
-                std::bind(&CameraData::updateSensorData, this, std::placeholders::_1));
+                std::bind(&Camera::getSensorData, this, std::placeholders::_1));
 
         APLOG_WARN << "Created Subscription";
 

@@ -22,7 +22,7 @@
 #add_subdirectory (ManeuverAnalysis)
 #add_subdirectory (DataHandling)
 
-add_executable(SensorDataTest   main.cpp   CameraData.cpp)
+add_executable(SensorDataTest	main.cpp	CameraData.cpp)
 
 target_link_libraries(SensorDataTest uavap_core                                 )
 

@@ -1,3 +1,4 @@
+#include "uavAP/Core/Logging/APLogger.h"
 #include "uavAP/Camera/CameraData.h"
 #include "uavAP/Core/Scheduler/MultiThreadingScheduler.h"
 #include "uavAP/Core/Runner/SimpleRunner.h"
@@ -6,7 +7,10 @@
 #include <iostream>
 
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
+	APLogger::instance()->setLogLevel(LogLevel::DEBUG);
+	APLogger::instance()->setModuleName("Camera");
     auto cam_data = std::make_shared<CameraData>();
     auto ipc = std::make_shared<IPC>();
     auto sched = std::make_shared<MultiThreadingScheduler>();
@@ -24,5 +28,13 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    while(1);
+
+    while(1)
+    {
+    	APLOG_ERROR << "x: " << cam_data->x;
+		APLOG_ERROR << "y: " << cam_data->y;
+		APLOG_ERROR << "z: " << cam_data->z;
+		APLOG_ERROR << "ground speed: " << cam_data->groundspeed;
+		APLOG_ERROR << "";
+    }
 }
